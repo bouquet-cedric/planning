@@ -1,0 +1,61 @@
+.jour {
+    width: 14.285%;
+    height: 3cm;
+    border: 1px solid black;
+}
+
+.num {
+    display: inline-block;
+    font-size: x-large;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+}
+
+.event {
+    color: white;
+    display: block;
+    font-weight: normal;
+}
+
+.evt {
+    cursor: pointer;
+    background-color: grey;
+    font-weight: bold;
+    color: white;
+}
+
+/* .evt>.num::after {
+    content: '\0A!';
+    color: blue;
+} */
+
+.corps {
+    display: flex;
+    flex-direction: row;
+    border: 1px dashed black;
+    background-color: black;
+}
+
+.plan,
+.events {
+    border: 1px solid grey;
+}
+
+.plan {
+    width: 80%;
+}
+
+.events {
+    width: 20%;
+    background-color: grey;
+}
+
+table {
+    width: 100%;
+    background-color: grey;
+}
+
+caption {
+    background-color: orange;
+}
