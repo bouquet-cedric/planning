@@ -1,4 +1,7 @@
+___  
+
 > LANG : EN  
+
 # PlanningJS tools
 
 ## What's the use ?
@@ -11,13 +14,17 @@ A simple HTML import is sufficient to make it work.
 
 ### With Git
 
-* git init
-* git clone https://github.com/bouquet-cedric/planning.git
+```sh
+git init
+git clone https://github.com/bouquet-cedric/planning.git
+```
 
 ### With Github CLI
 
-* gh auth login
-* gh repo clone https://github.com/bouquet-cedric/planning.git
+```sh
+gh auth login
+gh repo clone https://github.com/bouquet-cedric/planning.git
+```
 
 ## Developed functionnalities
 
@@ -34,25 +41,32 @@ ___
 
 ## Quel en est l'usage ?
 
-PlanningJS est un outil opensource qui permet de visualiser le planning pour une ann√©e donn√©e.
-Ecrit en javascript, il permet √† n'importe qui de l'utiliser sans grande connaissance de la technologie.
-Un simple import HTML suffit √† le faire fonctionner.
+PlanningJS est un outil opensource qui permet de visualiser le planning pour une annÈe donnÈe.
+Ecrit en javascript, il permet ‡ n'importe qui de l'utiliser sans grande connaissance de la technologie.
+Un simple import HTML suffit ‡ le faire fonctionner.
 
 ## Obtenir le projet
 
 ### Avec Git
 
-* git init
-* git clone https://github.com/bouquet-cedric/planning.git
+```sh
+git init
+git clone https://github.com/bouquet-cedric/planning.git
+```
 
 ### Avec Github CLI
 
-* gh authentification de connexion
-* gh repo clone https://github.com/bouquet-cedric/planning.git
+```sh
+gh auth login
+gh repo clone https://github.com/bouquet-cedric/planning.git
+```
 
-## Fonctionnalit√©s d√©velopp√©es
+## FonctionnalitÈs dÈveloppÈes
 
-* Ajout d'√©v√©nements
-* Ajout de t√¢ches
-* Ajout de p√©riodes pour les √©v√©nements
-* Vue s√©lective par p√©riode par mois
+* Ajout d'ÈvÈnements
+* Ajout de t‚ches
+* Ajout de pÈriodes pour les ÈvÈnements
+* Vue sÈlective par pÈriode par mois
+
+___
+
