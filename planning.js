@@ -4,11 +4,17 @@ class Jour {
     constructor(num) {
         this.numero = num;
         this.events = ""
+        this.taches = ""
     }
 
     addEvent(event) {
         if (this.events != "") this.events += Jour.separator + event;
         else this.events = event;
+    }
+
+    addTache(t) {
+        if (this.taches != "") this.taches += Jour.separator + t;
+        else this.taches = t;
     }
 }
 
@@ -72,15 +78,17 @@ class Annee {
                     }
                     let elt = this.month[i]["days"][j];
                     cpt++;
-                    if (elt.events.length > 0)
-                        document.writeln("<td \
-                    class='jour evt' \
-                    onclick='reveal(\"" + elt.events + "\",\"" + elt.numero + "\",\"" + this.annee + "\",\"" + mois + "\")'> \
-                    <span class='num'><div>" + Annee.getJour(this.annee, mois, elt.numero) + "</div><div>" + elt.numero + "</div></span> \
-                    </td>");
-                    else
+                    if (elt.events.length + elt.taches.length > 0) {
+                        let clr =(elt.taches.length > 0)?"red":"lightblue"; 
+                        document.writeln("<td style='background-color:"+clr+"'\
+                        class='jour evt' id='day_"+this.annee+"_"+mois+"_"+elt.numero+"' \
+                        onclick='reveal(\"" + elt.events + "\",\"" + elt.taches + "\",\"" + elt.numero + "\",\"" + this.annee + "\",\"" + mois + "\")'> \
+                        <span class='num'><div>" + Annee.getJour(this.annee, mois, elt.numero) + "</div><div>" + elt.numero + "</div></span> \
+                        </td>");
+                    }
+                        else
                         document.writeln("<td  \
-                    class='jour'> \
+                    class='jour normal'> \
                     <span class='num'>" + Annee.getJour(this.annee, mois, elt.numero) + "</span> \
                     <span class='num'>" + elt.numero + "</span> \
                     </td>");
@@ -108,46 +116,53 @@ class Annee {
         }
     }
 
+    addTache(jour, mois, tache) {
+        for (let i in this.month) {
+            if (mois == this.month[i]["nom"]) {
+                this.month[i]["days"][jour - 1].addTache(tache);
+            }
+        }
+    }
+
     static getFormat(format) {
         // format = "jjmm"
         var jfm = format;
-        let jr = jfm[0]+''+jfm[1];
-        let ms = jfm[2]+''+jfm[3];
-        return [jr,ms];
+        let jr = jfm[0] + '' + jfm[1];
+        let ms = jfm[2] + '' + jfm[3];
+        return [jr, ms];
     }
 
-    static getDiff(date1,date2){
+    static getDiff(date1, date2) {
         let d1 = date1;
         let d2 = date2;
         let res = [];
-        if (d1[1] == d2[1]){
+        if (d1[1] == d2[1]) {
             // meme mois
-            for (let i = d1[0]-'0';i<=d2[0];i++) {
-                res.push([i,ms[(d1[1]-1)-'0']]);
+            for (let i = d1[0] - '0'; i <= d2[0]; i++) {
+                res.push([i, ms[(d1[1] - 1) - '0']]);
             }
             return res;
-        }
-        else {
+        } else {
             let tmp = new Annee(d1[2]);
-            let i1 = d1[1]-1;
-            let i2 = d2[1]-1;
+            let i1 = d1[1] - 1;
+            let i2 = d2[1] - 1;
             let m1 = tmp.month[i1];
             let diff = i2 - i1;
-            if (diff > 1){
-                for (let i = i1+2;i<=i2;i++){
-                    let mthBtwn = Annee.getDiff([1,i],[tmp.month[i-1].nbJours,i]);
-                    for (let i in mthBtwn ){
+            if (diff > 1) {
+                for (let i = i1 + 2; i <= i2; i++) {
+                    let mthBtwn = Annee.getDiff([1, i], [tmp.month[i - 1].nbJours, i]);
+                    for (let i in mthBtwn) {
                         res.push(mthBtwn[i]);
                     }
                 }
             }
-            let minit = Annee.getDiff([d1[0],d1[1]],[m1.nbJours,d1[1]]);
+            let minit = Annee.getDiff([d1[0], d1[1]], [m1.nbJours, d1[1]]);
             for (let i in minit) {
                 res.push(minit[i]);
             }
 
 
-            let mfinal = Annee.getDiff([1,d2[1]],[d2[0],d2[1]]);
+            let mfinal = Annee.getDiff([1, d2[1]], [d2[0], d2[1]]);
             for (let j in mfinal) {
                 res.push(mfinal[j]);
             }
@@ -155,13 +170,13 @@ class Annee {
         }
     }
 
-    addJourney(format1,format2,evnt){
+    addJourney(format1, format2, evnt) {
         // format = "jjmm"
         let f1 = Annee.getFormat(format1);
         let f2 = Annee.getFormat(format2);
-        let res = Annee.getDiff(f1,f2);
-        for(let i in res) {
-            this.addEvent(res[i][0],res[i][1],evnt);
+        let res = Annee.getDiff(f1, f2);
+        for (let i in res) {
+            this.addEvent(res[i][0], res[i][1], evnt);
         }
     }
 
@@ -182,20 +197,33 @@ class Annee {
     }
 }
 
-function reveal(evt, nm, an, ms) {
-    let infos = evt.split(Jour.separator);
-    if (evt.length > 0) {
+function reveal(evt, task, nm, an, ms) {
+    let infosE = evt.split(Jour.separator);
+    let infosT = task.split(Jour.separator);
+    if (evt.length+task.length > 0) {
         let j = document.getElementById("events_" + an + "_" + ms);
         while (j.firstChild) j.removeChild(j.lastChild);
         let ev = document.createElement("span");
         let dte = Annee.getJour(an, ms, nm);
         ev.textContent = "Evénements du " + dte + " " + nm + " " + ms + " :";
         j.appendChild(ev);
-        for (let i in infos) {
-            let sp = document.createElement("span");
-            sp.classList.add("event");
-            sp.textContent = infos[i];
-            j.appendChild(sp);
+        if (infosE != "") {
+            for (let i in infosE) {
+                let sp = document.createElement("span");
+                sp.classList.add("event");
+                sp.textContent = infosE[i];
+                j.appendChild(sp);
+            }
+        }
+        if (infosT != "") {
+            for (let i in infosT) {
+                let sp = document.createElement("span");
+                sp.classList.add("task");
+                sp.textContent = infosT[i];
+                j.appendChild(sp);
+                let tdRef = document.getElementById("day_"+an+"_"+ms+"_"+nm);
+                tdRef.style.backgroundColor="red";
+            }
         }
 
     }

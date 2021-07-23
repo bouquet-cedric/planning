@@ -59,3 +59,19 @@ table {
 caption {
     background-color: orange;
 }
+
+.task:after {
+    content:'\0A!';
+    color: blue;
+    font-weight: bold;
+}
+
+.task {
+    color: green;
+    font-weight: bold;
+    display: block;
+}
+
+.normal{
+    background-color: white;
+}
