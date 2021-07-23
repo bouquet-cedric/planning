@@ -334,7 +334,7 @@ class Annee {
 
     /**
      * Charge un planning événementiel
-     * @param {Array} plan LIste d'événements réguliers
+     * @param {Array} plan Liste d'événements réguliers
      */
     chargePlanning(plan) {
         for(let i in plan) {

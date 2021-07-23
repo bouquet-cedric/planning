@@ -67,4 +67,4 @@ gh repo clone https://github.com/bouquet-cedric/planning.git
 * Ajout de tâches
 * Ajout de périodes pour les événements
 * Vue sélective par période par mois
-
+* Chargement d'un planning annuel
