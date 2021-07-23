@@ -18,10 +18,12 @@ A simple HTML import is sufficient to make it work.
 * gh auth login
 * gh repo clone https://github.com/bouquet-cedric/planning.git
 
-## Functionnalities developed
+## Developed functionnalities
 
 * Adding events
 * Adding tasks
 * Adding periods for events
 * Selective period view by month
+
+
  
