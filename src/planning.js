@@ -331,6 +331,17 @@ class Annee {
         let tab = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
         return tab[n];
     }
+
+    /**
+     * Charge un planning événementiel
+     * @param {Array} plan LIste d'événements réguliers
+     */
+    chargePlanning(plan) {
+        for(let i in plan) {
+            let elt = plan[i];
+            this.addEvent(elt[0],elt[1],elt[2]);
+        }
+    }
 }
 
 /**
