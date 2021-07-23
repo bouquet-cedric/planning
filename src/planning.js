@@ -349,7 +349,7 @@ class Annee {
  * @param {string} evt Liste des événements 
  * @param {string} task Liste des tâches 
  * @param {string} nm Numéro du jour
- * @param {string} an NUméro de l'année
+ * @param {string} an Numéro de l'année
  * @param {string} ms Nom du mois
  * @see Annee.afficheMois()
  */
