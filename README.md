@@ -41,9 +41,9 @@ ___
 
 ## Quel en est l'usage ?
 
-PlanningJS est un outil opensource qui permet de visualiser le planning pour une année donnée.
-Ecrit en javascript, il permet à n'importe qui de l'utiliser sans grande connaissance de la technologie.
-Un simple import HTML suffit à le faire fonctionner.
+PlanningJS est un outil opensource qui permet de visualiser le planning pour une annÃ©e donnÃ©e.
+Ecrit en javascript, il permet Ã  n'importe qui de l'utiliser sans grande connaissance de la technologie.
+Un simple import HTML suffit Ã  le faire fonctionner.
 
 ## Obtenir le projet
 
@@ -61,12 +61,10 @@ gh auth login
 gh repo clone https://github.com/bouquet-cedric/planning.git
 ```
 
-## Fonctionnalités développées
+## FonctionnalitÃ©s dÃ©veloppÃ©es
 
-* Ajout d'événements
-* Ajout de tâches
-* Ajout de périodes pour les événements
-* Vue sélective par période par mois
-
-___
+* Ajout d'Ã©vÃ©nements
+* Ajout de tÃ¢ches
+* Ajout de pÃ©riodes pour les Ã©vÃ©nements
+* Vue sÃ©lective par pÃ©riode par mois
 
