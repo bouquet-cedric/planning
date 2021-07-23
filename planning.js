@@ -221,8 +221,6 @@ function reveal(evt, task, nm, an, ms) {
                 sp.classList.add("task");
                 sp.textContent = infosT[i];
                 j.appendChild(sp);
-                let tdRef = document.getElementById("day_"+an+"_"+ms+"_"+nm);
-                tdRef.style.backgroundColor="red";
             }
         }
 
