@@ -1,38 +1,115 @@
+/** @type {Array} */
 var ms = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+/**
+ * Classe Jour
+ */
 class Jour {
+    /** 
+     * @static
+     * @type {Character}
+     */
     static separator = '%';
+
+    /**
+     * Constructeur de la classe
+     * @param {number} num Numéro du mois
+     */
     constructor(num) {
+        /**
+         * Instance property
+         * @type {number}
+         */
         this.numero = num;
-        this.events = ""
-        this.taches = ""
+
+        /**
+         * Instance property
+         * @type {string}
+         */
+        this.events = "";
+
+        /**
+         * Instance property
+         * @type {string}
+         */
+        this.taches = "";
     }
 
+    /**
+     * Ajoute un événement sur un jour
+     * @param {string} event Evénement
+     */
     addEvent(event) {
         if (this.events != "") this.events += Jour.separator + event;
         else this.events = event;
     }
 
+    /**
+     * Ajoute une tâche sur un jour
+     * @param {string} t Tâche à effectuer
+     */
     addTache(t) {
         if (this.taches != "") this.taches += Jour.separator + t;
         else this.taches = t;
     }
 }
 
+
+/**
+ * Classe Mois
+ */
 class Mois {
+    /**
+     * Constructeur de la classe
+     * @param {string} nom Nom du mois
+     * @param {number} nbJours Nombre de jours dans le mois
+     */
     constructor(nom, nbJours) {
+        /** 
+         * Nom du mois  
+         * @type {string}
+         */
         this.nom = nom;
+
+        /** 
+         * Nombre de jours dans le mois
+         * @type {number}
+         */
         this.nbJours = nbJours;
+
+        /**
+         * Jours du mois
+         * @type {Array}
+         */
         this.days = [];
+
         for (let i = 0; i < this.nbJours; i++) {
             this.days.push(new Jour(i + 1));
         }
     }
 }
 
+/**
+ * Classe Annee
+ */
 class Annee {
+    /**
+     * Constructeur de la classe
+     * @param {number} annee Année sur laquelle effectuer un planning 
+     */
     constructor(annee) {
+        /**
+         * Liste des mois de l'année
+         * @type {Array}
+         */
         this.month = [];
+
+        /**
+         * Année
+         * @type {number}
+         */
         this.annee = annee;
+
         this.month.push(new Mois(ms[0], 31));
         this.month.push(new Mois(ms[1], (this.isBissextile() ? 29 : 28)));
         this.month.push(new Mois(ms[2], 31));
@@ -47,10 +124,18 @@ class Annee {
         this.month.push(new Mois(ms[11], 31));
     }
 
+    /**
+     * Détermine si l'année saisie est bissextile ou non
+     * @returns {boolean} true si l'année est bissextile, false sinon
+     */
     isBissextile() {
         return (this.annee % 400 == 0) || (this.annee % 4 == 0 && this.annee % 100 != 0) ? true : false;
     }
 
+    /**
+     * Retourne la somme des jours calculés par mois dans une année
+     * @returns {number} Nombre de jours dans l'année'
+     */
     nbJours() {
         let res = 0;
         let cpt = 0;
@@ -58,9 +143,13 @@ class Annee {
             res += this.month[cpt].nbJours;
             cpt++;
         }
-        return "Il y a " + res + " jours en " + this.annee;
+        return res;
     }
 
+    /**
+     * Affiche un mois
+     * @param {string} mois Mois d'une année  
+     */
     afficheMois(mois) {
         for (let i in this.month) {
             if (mois == this.month[i]["nom"]) {
@@ -102,12 +191,23 @@ class Annee {
 
     }
 
+    /**
+     * Affiche l'année, c'est-à-dire tous les mois
+     * @see Annee.afficheMois() 
+     */
     afficheAnnee() {
         for (let m in this.month) {
             this.afficheMois(this.month[m]["nom"]);
         }
     }
 
+    /**
+     * Ajoute un événement sur un mois
+     * @param {number} jour Numéro du jour 
+     * @param {string} mois Nom du mois
+     * @param {string} events Nom de l'événement
+     * @see Jour.addEvent()
+     */
     addEvent(jour, mois, events) {
         for (let i in this.month) {
             if (mois == this.month[i]["nom"]) {
@@ -116,6 +216,13 @@ class Annee {
         }
     }
 
+    /**
+     * Ajoute une tâche sur un mois
+     * @param {number} jour Numéro du jour 
+     * @param {string} mois Nom du mois
+     * @param {string} events Nom de la tâche
+     * @see Jour.addTache()
+     */
     addTache(jour, mois, tache) {
         for (let i in this.month) {
             if (mois == this.month[i]["nom"]) {
@@ -124,20 +231,31 @@ class Annee {
         }
     }
 
+    /**
+     * Permet de récupérer le format d'une année donnée sous forme jjmm
+     * @param {string} format Format jjmm 
+     * @returns {Array} Tableau de jours [jj,mm]
+     * @static
+     */
     static getFormat(format) {
-        // format = "jjmm"
         var jfm = format;
         let jr = jfm[0] + '' + jfm[1];
         let ms = jfm[2] + '' + jfm[3];
         return [jr, ms];
     }
 
+    /**
+     * Récupère la liste de tous les jours compris entre deux dates
+     * @param {Array} date1 Date initiale
+     * @param {Array} date2 Date finale
+     * @returns {Array} Liste des jours sous le format [jj,mm]
+     * @static 
+     */
     static getDiff(date1, date2) {
         let d1 = date1;
         let d2 = date2;
         let res = [];
         if (d1[1] == d2[1]) {
-            // meme mois
             for (let i = d1[0] - '0'; i <= d2[0]; i++) {
                 res.push([i, ms[(d1[1] - 1) - '0']]);
             }
@@ -170,8 +288,13 @@ class Annee {
         }
     }
 
+    /**
+     * Ajoute un événement sur une période donnée
+     * @param {string} format1 Format sous forme jjmm de la date initiale
+     * @param {string} format2 Format sous forme jjmm de la date finale
+     * @param {string} evnt Evénement 
+     */
     addJourney(format1, format2, evnt) {
-        // format = "jjmm"
         let f1 = Annee.getFormat(format1);
         let f2 = Annee.getFormat(format2);
         let res = Annee.getDiff(f1, f2);
@@ -180,6 +303,11 @@ class Annee {
         }
     }
 
+    /**
+     * Affiche le planning d'une année entre deux mois
+     * @param {string} mois1 Mois initial 
+     * @param {string} mois2 Mois final
+     */
     affiche(mois1, mois2) {
         let i1 = ms.indexOf(mois1);
         let i2 = ms.indexOf(mois2) + 1;
@@ -188,6 +316,14 @@ class Annee {
         }
     }
 
+    /**
+     * Récupère le nom du jour d'une date
+     * @param {number} annee Numéro de l'année
+     * @param {string} mois Nom du mois 
+     * @param {number} jour Numéro du jour
+     * @returns {string} Nom du jour
+     * @static
+     */
     static getJour(annee, mois, jour) {
         mois = ms.indexOf(mois);
         var d = new Date(annee, mois, jour);
@@ -197,6 +333,15 @@ class Annee {
     }
 }
 
+/**
+ * Permet d'afficher les informations du jour cliqué
+ * @param {string} evt Liste des événements 
+ * @param {string} task Liste des tâches 
+ * @param {string} nm Numéro du jour
+ * @param {string} an NUméro de l'année
+ * @param {string} ms Nom du mois
+ * @see Annee.afficheMois()
+ */
 function reveal(evt, task, nm, an, ms) {
     let infosE = evt.split(Jour.separator);
     let infosT = task.split(Jour.separator);
