@@ -402,7 +402,7 @@ function getCorps() {
 
 function show(id) {
     let cps = getCorps();
-    actual = (id == '-') ? (actual - 1 >= 0? actual -1:actual) : (actual + 1<cpt_corps?actual + 1:actual);
+    actual = (id == '-') ? (actual - 1 >= 0 ? actual - 1 : actual) : (actual + 1 < cpt_corps ? actual + 1 : actual);
     for (let i in cps) {
         let elt = document.getElementById(cps[i]);
         elt.style.position = "fixed"
@@ -422,21 +422,15 @@ window.onkeydown = function (e) {
             show('+');
             break;
         case 38:
-            update(actual);
+            show('-');
             break;
         case 40:
-            //-Move down
+            show('+');
             break;
         default:
             break;
     }
 };
-
-function update(num) {
-    actual = num;
-    show('-');
-    show('+');
-}
 
 window.onload = function () {
     let cps = getCorps();
