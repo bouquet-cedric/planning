@@ -1,6 +1,12 @@
 /** @type {Array} */
 var ms = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
+/** @type {number} */
+var cpt_corps = 0;
+
+/** @type {number} */
+var actual = 0;
+
 /**
  * Classe Jour
  */
@@ -153,7 +159,8 @@ class Annee {
     afficheMois(mois) {
         for (let i in this.month) {
             if (mois == this.month[i]["nom"]) {
-                document.writeln("<div class='corps'>");
+                document.writeln("<div class='corps' id='corps_" + cpt_corps + "'>");
+                cpt_corps++;
                 document.writeln("<div class='plan'>");
                 document.writeln("<table>");
                 document.writeln("<caption>" + mois + " " + this.annee + "</caption>");
@@ -168,14 +175,13 @@ class Annee {
                     let elt = this.month[i]["days"][j];
                     cpt++;
                     if (elt.events.length + elt.taches.length > 0) {
-                        let clr =(elt.taches.length > 0)?"red":"lightblue"; 
-                        document.writeln("<td style='background-color:"+clr+"'\
-                        class='jour evt' id='day_"+this.annee+"_"+mois+"_"+elt.numero+"' \
+                        let clr = (elt.taches.length > 0) ? "red" : "lightblue";
+                        document.writeln("<td style='background-color:" + clr + "'\
+                        class='jour evt' id='day_" + this.annee + "_" + mois + "_" + elt.numero + "' \
                         onclick='reveal(\"" + elt.events + "\",\"" + elt.taches + "\",\"" + elt.numero + "\",\"" + this.annee + "\",\"" + mois + "\")'> \
                         <span class='num'><div>" + Annee.getJour(this.annee, mois, elt.numero) + "</div><div>" + elt.numero + "</div></span> \
                         </td>");
-                    }
-                        else
+                    } else
                         document.writeln("<td  \
                     class='jour normal'> \
                     <span class='num'>" + Annee.getJour(this.annee, mois, elt.numero) + "</span> \
@@ -256,7 +262,8 @@ class Annee {
         let d2 = date2;
         let res = [];
         if (d1[1] == d2[1]) {
-            for (let i = d1[0] - '0'; i <= d2[0]; i++) {
+            var debut = d1[0] - '0';
+            for (let i = debut; i <= d2[0]; i++) {
                 res.push([i, ms[(d1[1] - 1) - '0']]);
             }
             return res;
@@ -337,9 +344,9 @@ class Annee {
      * @param {Array} plan Liste d'événements réguliers
      */
     chargePlanning(plan) {
-        for(let i in plan) {
+        for (let i in plan) {
             let elt = plan[i];
-            this.addEvent(elt[0],elt[1],elt[2]);
+            this.addEvent(elt[0], elt[1], elt[2]);
         }
     }
 }
@@ -356,7 +363,7 @@ class Annee {
 function reveal(evt, task, nm, an, ms) {
     let infosE = evt.split(Jour.separator);
     let infosT = task.split(Jour.separator);
-    if (evt.length+task.length > 0) {
+    if (evt.length + task.length > 0) {
         let j = document.getElementById("events_" + an + "_" + ms);
         while (j.firstChild) j.removeChild(j.lastChild);
         let ev = document.createElement("span");
@@ -381,4 +388,64 @@ function reveal(evt, task, nm, an, ms) {
         }
 
     }
+}
+
+function getCorps() {
+    let debut = 0;
+    let fin = cpt_corps;
+    res = [];
+    for (let i = debut; i < fin; i++) {
+        res.push("corps_" + i);
+    }
+    return res;
+}
+
+function show(id) {
+    let cps = getCorps();
+    actual = (id == '-') ? (actual - 1 >= 0? actual -1:actual) : (actual + 1<cpt_corps?actual + 1:actual);
+    for (let i in cps) {
+        let elt = document.getElementById(cps[i]);
+        elt.style.position = "fixed"
+        elt.style.width = "95%"
+        elt.style.display = "none";
+    }
+    let elt = document.getElementById(cps[actual]);
+    elt.style.display = "flex";
+}
+window.onkeydown = function (e) {
+    var key = e.keyCode || e.which;
+    switch (key) {
+        case 37:
+            show('-');
+            break;
+        case 39:
+            show('+');
+            break;
+        case 38:
+            update(actual);
+            break;
+        case 40:
+            //-Move down
+            break;
+        default:
+            break;
+    }
+};
+
+function update(num) {
+    actual = num;
+    show('-');
+    show('+');
+}
+
+window.onload = function () {
+    let cps = getCorps();
+    for (let i in cps) {
+        let elt = document.getElementById(cps[i]);
+        elt.style.position = "fixed"
+        elt.style.width = "95%"
+        elt.style.display = "none";
+    }
+    let elt = document.getElementById(cps[0]);
+    elt.style.display = "flex";
 }
